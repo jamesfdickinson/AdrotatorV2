@@ -70,6 +70,7 @@ namespace AdRotator
                     AdType.Inmobi,
                     AdType.DefaultHouseAd,
                     AdType.None,
+                    AdType.Vserv,
 #if !WP7
                     AdType.Smaato,
 #endif
@@ -819,8 +820,19 @@ namespace AdRotator
 
         public void Dispose()
         {
+            //remove the timer if still be running. posible timer leak
+            if(adRotatorControl != null)
+            {
+                adRotatorControl.StopAdTimer();
+                adRotatorControl.Dispose();//stop 3rd party ad timer
+            } 
+
+
             if (AdRotatorRoot != null && AdRotatorRoot.Child != null)
             {
+
+              
+                
                 AdRotatorRoot.Child = null;
             }
             //providerElement = null;

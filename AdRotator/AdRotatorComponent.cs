@@ -27,13 +27,14 @@ namespace AdRotator
                 Log(message);
             }
         }
-        #endregion 
+        #endregion
 
         #region AdAvailableEventCode
 
         public delegate void AdAvailableHandler(AdProvider adProvider);
 
         public event AdAvailableHandler AdAvailable;
+        public event EventHandler DisposeAd;
 
         internal void OnAdAvailable(AdProvider adProvider)
         {
@@ -71,7 +72,7 @@ namespace AdRotator
         private TimerCallback timerDelegate;
 
         private int _adRotatorRefreshInterval = 60;
-        
+
         internal int AdWidth { get; set; }
 
         internal int AdHeight { get; set; }
@@ -94,7 +95,7 @@ namespace AdRotator
 
         internal static List<AdType> PlatformSupportedAdProviders { get; set; }
 
-        internal static Dictionary<AdType,Type> PlatformAdProviderComponents { get; set; }
+        internal static Dictionary<AdType, Type> PlatformAdProviderComponents { get; set; }
 
         internal AdSlideDirection currentAdSlideDirection { get; set; }
         internal int currentSlidingAdDisplaySeconds { get; set; }
@@ -137,14 +138,14 @@ namespace AdRotator
         {
             try
             {
-                if(_settings == null) await LoadAdSettings();
+                if (_settings == null) await LoadAdSettings();
             }
             catch { }
 
             if (_settings != null && _settings.CultureDescriptors.Count() > 0)
             {
                 //Set Current culture based on Culture Value
-               _settings.GetAdDescriptorBasedOnUICulture(culture);
+                _settings.GetAdDescriptorBasedOnUICulture(culture);
             }
             OnAdAvailable(_settings.GetAd(adMode));
         }
@@ -170,6 +171,8 @@ namespace AdRotator
 
         internal object GetProviderFrameworkElement(AdRotator.AdProviderConfig.SupportedPlatforms platform, AdProvider adProvider)
         {
+            //clean up old provider
+            if (DisposeAd != null) DisposeAd(this,new EventArgs());
             if (!adProvider.AdProviderConfigValues.ContainsKey(platform))
             {
                 AdFailed(adProvider.AdProviderType);
@@ -223,6 +226,9 @@ namespace AdRotator
                         case AdType.AdMob:
                             reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdType], "Banner");
                             break;
+                        case AdType.Vserv:
+                            reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdType], "Banner");
+                            break;
                     }
                 }
 
@@ -254,7 +260,7 @@ namespace AdRotator
 #endif
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent))
                 {
-                    WireUpDelegateEvent(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent], string.Format("Ads served for: {0}", _settings.CurrentAdType.ToString()));
+                     WireUpDelegateEvent(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent], string.Format("Ads served for: {0}", _settings.CurrentAdType.ToString()));
                 }
 
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.AdFailedEvent))
@@ -265,13 +271,23 @@ namespace AdRotator
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.AdClickedEvent))
                 {
                     WireUpDelegateEvent(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdClickedEvent], string.Format("Ad clicked for: {0}", _settings.CurrentAdType.ToString()));
-                } 
-                
+                }
+
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.StartMethod))
                 {
                     reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StartMethod]);
                 }
-
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.StopMethod))
+                {
+                    DisposeAd = null;
+                    DisposeAd += (s, e) =>
+                    {
+                        reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StopMethod]);
+                       // reflectionHelper.TryInvokeMethod(providerType, instance, "StopRefresh");
+                        //reflectionHelper.TryInvokeMethod(providerType, instance, "StopAds");
+                        
+                    };
+                }
             }
             catch (PlatformNotSupportedException)
             {
@@ -293,7 +309,10 @@ namespace AdRotator
 
             return instance;
         }
-
+        public void Dispose()
+        {
+            if (DisposeAd != null) DisposeAd(this, null);
+        }
         public void StartAdTimer()
         {
             TimeSpan delayTime = new TimeSpan(0, 0, 0);
@@ -308,13 +327,13 @@ namespace AdRotator
             }
             else
             {
-                    GetAd();
+                GetAd();
             }
         }
 
         public void StopAdTimer()
         {
-            adRotatorTimer.Dispose();
+            if (adRotatorTimer != null) adRotatorTimer.Dispose();
             adRotatorTimer = null;
         }
         /// <summary>

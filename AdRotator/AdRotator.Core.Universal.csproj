@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdProviders\AdProviderVserv.cs" />
     <Compile Include="AdProviders\AdProviderAdDuplex.cs" />
     <Compile Include="AdProviders\AdProviderAdMob.cs" />
     <Compile Include="AdProviders\AdProviderDefaultHouseAd.cs" />

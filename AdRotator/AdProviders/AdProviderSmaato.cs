@@ -25,7 +25,8 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.StopMethod,"StopAds"}
                                                     }
                                             }
                             },
@@ -43,7 +44,8 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.StopMethod,"StopAds"}
                                                     }
                                             }
                             },
@@ -61,7 +63,8 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.StopMethod,"StopAds"}
                                                     }
                                             }
                             },
@@ -79,7 +82,8 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.StopMethod,"StopAds"}
                                                     }
                                             }
                             },
@@ -97,7 +101,8 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.StopMethod,"StopAds"}
                                                     }
                                             }
                             },
