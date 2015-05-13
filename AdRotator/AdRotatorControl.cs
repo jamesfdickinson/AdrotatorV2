@@ -9,6 +9,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
+using System.Diagnostics;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +48,8 @@ namespace AdRotator
             if (Log != null)
             {
                 Log("Control {" + adRotatorControlID + "} - " + message);
+                //send log to debug output
+                Debug.WriteLine("Control {" + adRotatorControlID + "} - " + message);
             }
         }
         #endregion
@@ -61,7 +64,7 @@ namespace AdRotator
             this.DefaultStyleKey = typeof(AdRotatorControl);
 
             Loaded += AdRotatorControl_Loaded;
-
+            Unloaded += AdRotatorControl_Unloaded;
             // List of AdProviders supportd on this platform
             AdRotatorComponent.PlatformSupportedAdProviders = new List<AdType>()
                 { 
@@ -84,7 +87,11 @@ namespace AdRotator
                 };
             adRotatorControl.Log += (s) => OnLog(AdRotatorControlID,s);
         }
-
+        ~AdRotatorControl()
+        {
+            Debug.WriteLine("~AdRotatorControl()");
+        }
+     
         private Border AdRotatorRoot
         {
             get
@@ -148,6 +155,10 @@ namespace AdRotator
             OnAdRotatorReady();
 
             adRotatorControl.isLoaded = true;
+        }
+        void AdRotatorControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispose();
         }
 
         public async Task<string> Invalidate(AdProvider adProvider)
@@ -830,9 +841,6 @@ namespace AdRotator
 
             if (AdRotatorRoot != null && AdRotatorRoot.Child != null)
             {
-
-              
-                
                 AdRotatorRoot.Child = null;
             }
             //providerElement = null;
