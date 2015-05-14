@@ -172,7 +172,7 @@ namespace AdRotator
         internal object GetProviderFrameworkElement(AdRotator.AdProviderConfig.SupportedPlatforms platform, AdProvider adProvider)
         {
             //clean up old provider
-            if (DisposeAd != null) DisposeAd(this,new EventArgs());
+            if (DisposeAd != null) DisposeAd(this, new EventArgs());
             if (!adProvider.AdProviderConfigValues.ContainsKey(platform))
             {
                 AdFailed(adProvider.AdProviderType);
@@ -229,6 +229,11 @@ namespace AdRotator
                         case AdType.Vserv:
                             reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdType], "Banner");
                             break;
+                        case AdType.Inmobi:
+                            reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdType], "21");
+                            //INMOBI_AD_UNIT_480x75 = 21;
+                            //INMOBI_AD_UNIT_320X50 = 15;
+                            break;
                     }
                 }
 
@@ -260,7 +265,7 @@ namespace AdRotator
 #endif
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent))
                 {
-                     WireUpDelegateEvent(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent], string.Format("Ads served for: {0}", _settings.CurrentAdType.ToString()));
+                    WireUpDelegateEvent(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AdSuccessEvent], string.Format("Ads served for: {0}", _settings.CurrentAdType.ToString()));
                 }
 
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.AdFailedEvent))
@@ -283,9 +288,7 @@ namespace AdRotator
                     DisposeAd += (s, e) =>
                     {
                         reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StopMethod]);
-                       // reflectionHelper.TryInvokeMethod(providerType, instance, "StopRefresh");
-                        //reflectionHelper.TryInvokeMethod(providerType, instance, "StopAds");
-                        
+
                     };
                 }
             }

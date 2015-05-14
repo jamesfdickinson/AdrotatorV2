@@ -38,8 +38,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.StartMethod,"LoadNewAd"},
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
-                                                        {AdProviderConfigOptions.AdSuccessEvent,"AdRequestLoaded"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"AdRequestFailed"}
+                                                        {AdProviderConfigOptions.AdSuccessEvent,"OnAdRequestLoaded"},
+                                                        {AdProviderConfigOptions.AdFailedEvent,"OnAdRequestFailed"},
+                                                        {AdProviderConfigOptions.AdType,"AdSize"},
                                                     }
                                             }
                             },
