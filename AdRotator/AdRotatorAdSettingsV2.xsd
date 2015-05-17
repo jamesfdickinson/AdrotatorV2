@@ -30,6 +30,7 @@
     <xs:attribute name="AdSlideDisplaySeconds" type="xs:double" />
     <xs:attribute name="AdSlideHiddenSeconds" type="xs:double" />
     <xs:attribute name="EnabledInTrialOnly" type="xs:boolean" />
+    <xs:attribute name="AdRetrievalMode" type="AdMode" />
   </xs:complexType>
 
   <xs:complexType name="AdProviderPubCenter">
@@ -131,6 +132,14 @@
       <xs:enumeration value="Smaato"/>
       <xs:enumeration value="DefaultHouseAd"/>
       <xs:enumeration value="None"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AdMode">
+    <xs:restriction base="xs:string" >
+      <xs:enumeration value="Random"/>
+      <xs:enumeration value="Ordered"/>
+      <xs:enumeration value="Stepped"/>
+      <xs:enumeration value="Default"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="SlideDirection">

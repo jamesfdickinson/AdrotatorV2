@@ -147,6 +147,12 @@ namespace AdRotator.Model
                 return new AdRotator.AdProviders.AdProviderNone();
             }
 
+            //overide AdMode if set in the config at the CultureDescriptors level.(Random,Ordered, or Stepped)
+            if (adsettings.CurrentCulture.AdRetrievalMode != AdMode.Default)
+            {
+                mode = adsettings.CurrentCulture.AdRetrievalMode;
+            }
+
             var activeDescriptors = adsettings.CurrentCulture.Items.Where(x => !adsettings._failedAdTypes.Contains(((AdProvider)x).AdProviderType));
             var supportedDescriptors = activeDescriptors.Where(x => AdRotatorComponent.PlatformSupportedAdProviders.Contains(((AdProvider)x).AdProviderType));
             var validDescriptors = supportedDescriptors.Where(x => (((AdProvider)x).Probability > 0) || ((AdProvider)x).AdOrder > 0).Cast<AdProvider>().ToArray();
@@ -176,13 +182,18 @@ namespace AdRotator.Model
                     case AdMode.Stepped:
                     case AdMode.Ordered:
                         validDescriptors = validDescriptors.OrderBy(x => x.AdOrder).Cast<AdProvider>().ToArray();
-                        if (mode == AdMode.Ordered) return validDescriptors[0];
+                        AdProvider selectedAdProvider = validDescriptors[0];
+                        //set adsettings.CurrentAdType
+                        adsettings.CurrentAdType = selectedAdProvider.AdProviderType;
+                        if (mode == AdMode.Ordered) return selectedAdProvider;
                         adsettings.CurrentAdProvider = validDescriptors[adsettings.CurrentAdOrderIndex];
                         adsettings.CurrentAdOrderIndex++;
                         if (adsettings.CurrentAdOrderIndex > validDescriptors.Length - 1)
                         {
                             adsettings.CurrentAdOrderIndex = 0;
                         }
+                        
+
                         return adsettings.CurrentAdProvider;
                 }
                 
