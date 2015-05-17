@@ -126,8 +126,7 @@ namespace AdRotator
                 {
                     adRotatorControl.AdAvailable -= adRotatorControl_AdAvailable;
                 }
-                catch { }
-                adRotatorControl.AdAvailable -= adRotatorControl_AdAvailable; // clear all incase this control has been loaded before. Page load or navigation will tigger an "Loaded" event  
+                catch { } 
                 adRotatorControl.AdAvailable += adRotatorControl_AdAvailable;
             }
         }
@@ -142,7 +141,12 @@ namespace AdRotator
             else if (templateApplied)
             {
                 InitialiseSlidingAnimations();
-                adRotatorControl.AdAvailable -= adRotatorControl_AdAvailable; // clear all incase this control has been loaded before. Page load or navigation will tigger an "Loaded" event  
+                // clear all incase this control has been loaded before. Page load or navigation will tigger an "Loaded" event. Not sure i need a try catch, but it was done elsewhere in the code so best be safe.  
+                try
+                {
+                    adRotatorControl.AdAvailable -= adRotatorControl_AdAvailable;
+                }
+                catch { } 
                 adRotatorControl.AdAvailable += adRotatorControl_AdAvailable;
                 if (AutoStartAds)
                 {
