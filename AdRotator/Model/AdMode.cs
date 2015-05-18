@@ -1,5 +1,4 @@
 ﻿
-using System.Xml.Serialization;
 namespace AdRotator.Model
 {
     public enum AdMode
@@ -7,6 +6,6 @@ namespace AdRotator.Model
         Random,
         Ordered,
         Stepped,
-        Default,
+		Default
     }
 }

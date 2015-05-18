@@ -132,6 +132,7 @@ namespace AdRotator.Model
                 this.enabledInTrialOnlyFieldSpecified = value;
             }
         }
+		
         public AdCultureDescriptor()
         {
             //set default value

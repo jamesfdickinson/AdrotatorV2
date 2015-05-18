@@ -23,8 +23,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"AdRequestLoaded"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"AdRequestFailed"}
-                                                    }
+                                                        {AdProviderConfigOptions.AdFailedEvent,"AdRequestFailed"},
+                                                        {AdProviderConfigOptions.AdType,"AdSize"},
+                                                   }
                                             }
                             },
                             {SupportedPlatforms.WindowsPhone8, new AdProviderDetails() 
@@ -56,8 +57,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"OnAdRequestLoaded"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"OnAdRequestFailed"}
-                                                    }
+                                                        {AdProviderConfigOptions.AdFailedEvent,"OnAdRequestFailed"},
+                                                        {AdProviderConfigOptions.AdType,"AdSize"},
+                                                   }
                                             }
                             },
                             {SupportedPlatforms.Windows81, new AdProviderDetails() 
@@ -72,8 +74,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"OnAdRequestLoaded"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"OnAdRequestFailed"}
-                                                    }
+                                                        {AdProviderConfigOptions.AdFailedEvent,"OnAdRequestFailed"},
+                                                        {AdProviderConfigOptions.AdType,"AdSize"},
+                                                   }
                                             }
                             },
             };

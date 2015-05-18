@@ -9,7 +9,6 @@ using System.Windows;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
-using System.Diagnostics;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,16 +46,24 @@ namespace AdRotator
         {
             if (Log != null)
             {
-                Log("Control {" + adRotatorControlID + "} - " + message);
-                //send log to debug output
-                Debug.WriteLine("Control {" + adRotatorControlID + "} - " + message);
+                var logMessage = "Control {" + adRotatorControlID + "} - " + message;
+                Log(logMessage);
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(logMessage);
+#endif
             }
         }
         #endregion
 
         public AdRotatorControl(): this(0)
         {}
- 
+
+        ~AdRotatorControl()
+        {
+            OnLog(AdRotatorControlID, "AdRotator Disposed");
+        }
+
+
         public AdRotatorControl(int id)
         {
             AdRotatorControlID = id;
@@ -65,6 +72,7 @@ namespace AdRotator
 
             Loaded += AdRotatorControl_Loaded;
             Unloaded += AdRotatorControl_Unloaded;
+
             // List of AdProviders supportd on this platform
             AdRotatorComponent.PlatformSupportedAdProviders = new List<AdType>()
                 { 
@@ -72,8 +80,8 @@ namespace AdRotator
                     AdType.PubCenter, 
                     AdType.Inmobi,
                     AdType.DefaultHouseAd,
-                    AdType.None,
                     AdType.Vserv,
+                    AdType.None,
 #if !WP7
                     AdType.Smaato,
 #endif
@@ -87,11 +95,7 @@ namespace AdRotator
                 };
             adRotatorControl.Log += (s) => OnLog(AdRotatorControlID,s);
         }
-        ~AdRotatorControl()
-        {
-            Debug.WriteLine("~AdRotatorControl()");
-        }
-     
+
         private Border AdRotatorRoot
         {
             get
@@ -126,7 +130,7 @@ namespace AdRotator
                 {
                     adRotatorControl.AdAvailable -= adRotatorControl_AdAvailable;
                 }
-                catch { } 
+                catch { }
                 adRotatorControl.AdAvailable += adRotatorControl_AdAvailable;
             }
         }
@@ -162,11 +166,12 @@ namespace AdRotator
 
             adRotatorControl.isLoaded = true;
         }
+
         void AdRotatorControl_Unloaded(object sender, RoutedEventArgs e)
         {
             Dispose();
         }
-
+        
         public async Task<string> Invalidate(AdProvider adProvider)
         {
             if (!IsAdRotatorEnabled)
@@ -843,14 +848,14 @@ namespace AdRotator
                 adRotatorControl.StopAdTimer();
                 adRotatorControl.Dispose();//stop 3rd party ad timer
             } 
-
-
+            
             if (AdRotatorRoot != null && AdRotatorRoot.Child != null)
             {
                 AdRotatorRoot.Child = null;
             }
             //providerElement = null;
             DefaultHouseAdBody = null;
+            OnLog(AdRotatorControlID, "AdRotator Disposing");
         }
     }
 }

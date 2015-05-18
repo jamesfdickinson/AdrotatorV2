@@ -27,7 +27,7 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
                                                         {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
                                                         {AdProviderConfigOptions.StopMethod,"StopAds"}
-                                                    }
+                                                   }
                                             }
                             },
                             {SupportedPlatforms.WindowsPhone8, new AdProviderDetails() 
@@ -103,7 +103,7 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
                                                         {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
                                                         {AdProviderConfigOptions.StopMethod,"StopAds"}
-                                                    }
+                                                   }
                                             }
                             },
             };
