@@ -13,6 +13,5 @@ namespace AdRotator.Model
         Inmobi,
         Vserv,
         DefaultHouseAd,
-        Vserv,
     }
 }

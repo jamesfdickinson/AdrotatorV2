@@ -12,7 +12,6 @@ namespace AdRotator.Model
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdProviderAdDuplex))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdProviderAdMob))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdProviderPubCenter))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdProviderVserv))]
     public abstract partial class AdProvider : AdSettingsBase, IAdProvider
     {
         private AdType adProviderTypeField;
